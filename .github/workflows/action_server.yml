@@ -4,3 +4,19 @@ on:
       - main
     paths:
     - 'actions/**'
+    
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    name: Build Acion Server Images
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - id: action-server
+      name: Build Action Server With Custom Actions.
+      uses: RasaHQ/action-server-gha@main
+      with:
+        docker_image_name: 'bjzjh/action-server'
+        docker_registry_login: ${{ secrets.DOCKER_HUB_LOGIN }}
+        docker_registry_password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+        docker_image_tag: ${{ github.sha }}
